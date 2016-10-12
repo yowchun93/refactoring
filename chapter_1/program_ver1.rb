@@ -73,7 +73,7 @@ class Customer
   end
 
   def amount_for
-
+    
   end
 
   # def amount_for(rental)
