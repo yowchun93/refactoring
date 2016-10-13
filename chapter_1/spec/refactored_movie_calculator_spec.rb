@@ -1,8 +1,8 @@
-require_relative "../program_ver1.rb"
+require_relative "../program_ver2.rb"
 
-RSpec.describe "MovieRentalCalculator" do
+describe "Refactored MovieRentalCalculator" do
   it "works" do
-    program = Program.new
+    program = RefactoredProgram.new
     statement = program.print_customer_statement
     puts statement
     "   Rental Records for YC

@@ -62,8 +62,7 @@ class Customer
       end
 
       result += "\t" + rental.movie.title + "\t" + this_amount.to_s + "\n"
-      this_amount += this_amount
-
+      total_amount += this_amount
     end
     # add footer
     result += "Amount owned is #{total_amount}"
@@ -86,7 +85,6 @@ class Program
     prerequisites()
   end
 
-
   def print_customer_statement
     @customer.statement
   end
@@ -95,7 +93,7 @@ class Program
 
   def prerequisites
     regular_movie = Movie.new("Superman", Movie::REGULAR)
-    new_release_movie = Movie.new("Superman", Movie::NEW_RELEASE)
+    new_release_movie = Movie.new("Superman New Release", Movie::NEW_RELEASE)
 
     regular_rental = Rental.new(regular_movie, 5)
     new_release_rental = Rental.new(new_release_movie, 5)
@@ -103,6 +101,7 @@ class Program
 
     @customer = Customer.new("YC")
     @customer.add_rental(regular_rental)
+    @customer.add_rental(new_release_rental)
     # @customer.add_rental(regular_rental)
   end
 
