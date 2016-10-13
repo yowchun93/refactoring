@@ -1,3 +1,4 @@
+require 'byebug'
 
 class Movie
   REGULAR = 0
@@ -39,7 +40,6 @@ class Customer
   def statement
     total_amount, frequent_renter_points = 0, 0
     result = "Rental Records for #{name}\n"
-
     # for each rental that the customer has, check the rental's price code
     @rentals.each do |rental|
       this_amount = 0
@@ -57,7 +57,7 @@ class Customer
       end
       ## add frequent renter points
       frequent_renter_points += 1
-      if rental.movie.price_code == MOVIE.NEW_RELEASE && rental.days_rented > 1
+      if rental.movie.price_code == Movie::NEW_RELEASE && rental.days_rented > 1
         frequent_renter_points += 1
       end
 
@@ -73,15 +73,37 @@ class Customer
   end
 
   def amount_for
-    
-  end
 
-  # def amount_for(rental)
-  #
-  # end
+  end
 
 end
 
 class Program
+
+  attr_accessor :customer
+
+  def initialize
+    prerequisites()
+  end
+
+
+  def print_customer_statement
+    @customer.statement
+  end
+
+  private
+
+  def prerequisites
+    regular_movie = Movie.new("Superman", Movie::REGULAR)
+    new_release_movie = Movie.new("Superman", Movie::NEW_RELEASE)
+
+    regular_rental = Rental.new(regular_movie, 5)
+    new_release_rental = Rental.new(new_release_movie, 5)
+
+
+    @customer = Customer.new("YC")
+    @customer.add_rental(regular_rental)
+    # @customer.add_rental(regular_rental)
+  end
 
 end
