@@ -57,23 +57,21 @@ class Customer
     result = "Rental Records for #{name}\n"
     # for each rental that the customer has, check the rental's price code
     @rentals.each do |rental|
-      this_amount = amount_for(rental)
       ## add frequent renter points
       frequent_renter_points = get_frequent_rental_points(rental)
 
-      result += "\t" + rental.movie.title + "\t" + this_amount.to_s + "\n"
-      total_amount += this_amount
+      result += "\t" + rental.movie.title + "\t" + rental.charge.to_s + "\n"
+      total_amount += rental.charge
     end
     # add footer
     result += "Amount owned is #{total_amount}"
     result += "You earned #{frequent_renter_points} frequent_renter_points"
     result
-
   end
-
-  def amount_for(rental)
-    rental.charge
-  end
+  ## replace this with just rental.charge
+  # def amount_for(rental)
+  #   rental.charge
+  # end
 
   def get_frequent_rental_points(rental)
     frequent_renter_points = 0
