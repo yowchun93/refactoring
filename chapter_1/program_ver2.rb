@@ -42,12 +42,9 @@ class Customer
     result = "Rental Records for #{name}\n"
     # for each rental that the customer has, check the rental's price code
     @rentals.each do |rental|
-      this_amount = amount_for(rental)      
+      this_amount = amount_for(rental)
       ## add frequent renter points
-      frequent_renter_points += 1
-      if rental.movie.price_code == Movie::NEW_RELEASE && rental.days_rented > 1
-        frequent_renter_points += 1
-      end
+      frequent_renter_points = get_frequent_rental_points(rental)
 
       result += "\t" + rental.movie.title + "\t" + this_amount.to_s + "\n"
       total_amount += this_amount
@@ -60,22 +57,30 @@ class Customer
   end
 
   def amount_for(rental)
-    this_amount = 0
+    result = 0
     case rental.movie.price_code
     when Movie::REGULAR
-      this_amount += 2
-      this_amount += (rental.days_rented - 2) * 1.5 if rental.days_rented > 2
+      result += 2
+      result += (rental.days_rented - 2) * 1.5 if rental.days_rented > 2
     when Movie::NEW_RELEASE
-      this_amount += rental.days_rented * 3
+      result += rental.days_rented * 3
     when Movie::CHILDRENS
-      this_amount += 1.5
-      this_amount += (element.days_rented -3 ) * 1.5 if rental.days_rented > 3
+      result += 1.5
+      result += (element.days_rented -3 ) * 1.5 if rental.days_rented > 3
     end
-    return this_amount
+    return result
+  end
+
+  def get_frequent_rental_points(rental)
+    frequent_renter_points = 0
+    frequent_renter_points += 1
+    if rental.movie.price_code == Movie::NEW_RELEASE && rental.days_rented > 1
+      frequent_renter_points += 1
+    end
+    frequent_renter_points
   end
 
 end
-
 
 
 
