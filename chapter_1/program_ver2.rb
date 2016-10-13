@@ -22,6 +22,21 @@ class Rental
     @days_rented = days_rented
   end
 
+  def charge
+    result = 0
+    case self.movie.price_code
+    when Movie::REGULAR
+      result += 2
+      result += (self.days_rented - 2) * 1.5 if self.days_rented > 2
+    when Movie::NEW_RELEASE
+      result += self.days_rented * 3
+    when Movie::CHILDRENS
+      result += 1.5
+      result += (self.days_rented -3 ) * 1.5 if self.days_rented > 3
+    end
+    return result
+  end
+
 end
 
 class Customer
@@ -57,18 +72,7 @@ class Customer
   end
 
   def amount_for(rental)
-    result = 0
-    case rental.movie.price_code
-    when Movie::REGULAR
-      result += 2
-      result += (rental.days_rented - 2) * 1.5 if rental.days_rented > 2
-    when Movie::NEW_RELEASE
-      result += rental.days_rented * 3
-    when Movie::CHILDRENS
-      result += 1.5
-      result += (element.days_rented -3 ) * 1.5 if rental.days_rented > 3
-    end
-    return result
+    rental.charge
   end
 
   def get_frequent_rental_points(rental)
