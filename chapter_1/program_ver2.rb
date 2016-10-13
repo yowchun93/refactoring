@@ -16,6 +16,9 @@ end
 class Rental
   attr_reader :movie, :days_rented
 
+  # rental is calling movie.price_code
+  # doing case statement based on other object's attribute
+
   def charge
     result = 0
     case movie.price_code
@@ -30,6 +33,8 @@ class Rental
     end
   end
 
+  # frequent renter points is using movie's price code
+  # move frequent_renter_points to movie
   def frequent_renter_points
     (movie.price_code == Movie.NEW_RELEASE) ? 2 : 1
   end
