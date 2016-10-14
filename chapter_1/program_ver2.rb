@@ -37,7 +37,7 @@ class Rental
     return result
   end
 
-  def frequent_rental_points
+  def frequent_renter_points
     frequent_rental_points = 1
     if self.movie.price_code == Movie::NEW_RELEASE && self.days_rented > 1
       frequent_rental_points += 1
@@ -61,21 +61,28 @@ class Customer
   end
 
   def statement
-    total_amount, frequent_renter_points = 0, 0
+    frequent_renter_points = 0
     result = "Rental Records for #{name}\n"
     # for each rental that the customer has, check the rental's price code
     @rentals.each do |rental|
       ## add frequent renter points
-      frequent_rental_points = rental.frequent_rental_points
+      frequent_renter_points = rental.frequent_renter_points
       # frequent_renter_points = get_frequent_rental_points(rental)
 
       result += "\t" + rental.movie.title + "\t" + rental.charge.to_s + "\n"
-      total_amount += rental.charge
     end
     # add footer
-    result += "Amount owned is #{total_amount}"
+    result += "Amount owned is #{total_charge}"
     result += "You earned #{frequent_renter_points} frequent_renter_points"
     result
+  end
+
+  def total_charge
+    result = 0
+    @rentals.each do |rental|
+      result += rental.charge
+    end
+    return result
   end
   ## replace this with just rental.charge
   # def amount_for(rental)
