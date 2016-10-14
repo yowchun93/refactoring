@@ -68,7 +68,6 @@ class Customer
       ## add frequent renter points
       frequent_renter_points = rental.frequent_renter_points
       # frequent_renter_points = get_frequent_rental_points(rental)
-
       result += "\t" + rental.movie.title + "\t" + rental.charge.to_s + "\n"
     end
     # add footer
@@ -77,27 +76,21 @@ class Customer
     result
   end
 
+  # def total_charge
+  #   result = 0
+  #   @rentals.each do |rental|
+  #     result += rental.charge
+  #   end
+  #   return result
+  # end
+
   def total_charge
-    result = 0
-    @rentals.each do |rental|
-      result += rental.charge
-    end
-    return result
+    @rentals.inject(0) { |sum,rental| sum += rental.charge }
   end
   ## replace this with just rental.charge
   # def amount_for(rental)
   #   rental.charge
   # end
-
-  def get_frequent_rental_points(rental)
-    frequent_renter_points = 0
-    frequent_renter_points += 1
-    if rental.movie.price_code == Movie::NEW_RELEASE && rental.days_rented > 1
-      frequent_renter_points += 1
-    end
-    frequent_renter_points
-  end
-
 end
 
 
