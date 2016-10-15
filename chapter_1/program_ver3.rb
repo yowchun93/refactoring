@@ -6,10 +6,15 @@ class Movie
   CHILDRENS = 2
 
   attr_reader :title
-  attr_accessor :price_code
+  # attr_accessor :price_code
+  attr_reader :price_code
+
+  def price_code=(value)
+    @price_code = value
+  end
 
   def initialize(title, price_code)
-    @title, @price_code = title, price_code
+    @title, self.price_code = title, price_code
   end
 
   # require rental's days_rented
@@ -28,7 +33,28 @@ class Movie
     return result
   end
 
+  def frequent_renter_points(days_rented)
+    frequent_rental_points = 1
+    if price_code == Movie::NEW_RELEASE && days_rented > 1
+      frequent_rental_points += 1
+    end
+    return frequent_rental_points
+  end
+
 end
+
+class RegularPrice
+  
+end
+
+class NewReleasePrice
+
+end
+
+class ChildrensPrice
+
+end
+
 
 class Rental
   attr_reader :movie, :days_rented
@@ -44,11 +70,7 @@ class Rental
   end
 
   def frequent_renter_points
-    frequent_rental_points = 1
-    if self.movie.price_code == Movie::NEW_RELEASE && self.days_rented > 1
-      frequent_rental_points += 1
-    end
-    return frequent_rental_points
+    @movie.frequent_renter_points(days_rented)
   end
 
 end
