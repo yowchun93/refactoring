@@ -28,19 +28,9 @@ class Movie
 
   # require rental's days_rented
   def charge(days_rented)
-    result = 0
-    case price_code
-    when Movie::REGULAR
-      return @price.charge(days_rented)
-    when Movie::NEW_RELEASE
-      result += days_rented * 3
-    when Movie::CHILDRENS
-      result += 1.5
-      result += (days_rented -3 ) * 1.5 if days_rented > 3
-    end
-    return result
+    return @price.charge(days_rented)
   end
-
+  
   def frequent_renter_points(days_rented)
     frequent_rental_points = 1
     if price_code == Movie::NEW_RELEASE && days_rented > 1
@@ -61,11 +51,18 @@ class RegularPrice
 end
 
 class NewReleasePrice
-
+  def charge(days_rented)
+    result = 0
+    result += days_rented * 3
+  end
 end
 
 class ChildrensPrice
-
+  def charge(days_rented)
+    result = 0
+    result += 1.5
+    result += (days_rented -3 ) * 1.5 if days_rented > 3
+  end
 end
 
 
