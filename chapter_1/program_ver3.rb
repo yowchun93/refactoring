@@ -9,21 +9,23 @@ class Movie
   # attr_accessor :price_code
   attr_reader :price_code
 
-  ## create an instance of price , price code will now return an instance of price
-  def price_code=(value)
-    @price_code = value
-    @price = case @price_code
-      when REGULAR
-        RegularPrice.new
-      when NEW_RELEASE
-        NewReleasePrice.new
-      when CHILDRENS
-        ChildrensPrice.new
-    end
-  end
+  attr_writer :price
 
-  def initialize(title, price_code)
-    @title, self.price_code = title, price_code
+  ## create an instance of price , price code will now return an instance of price
+  # def price_code=(value)
+  #   @price_code = value
+  #   @price = case @price_code
+  #     when REGULAR
+  #       RegularPrice.new
+  #     when NEW_RELEASE
+  #       NewReleasePrice.new
+  #     when CHILDRENS
+  #       ChildrensPrice.new
+  #   end
+  # end
+
+  def initialize(title)
+    @title = title
   end
 
   # require rental's days_rented
@@ -137,10 +139,6 @@ class Customer
     result
   end
 
-  ## replace this with just rental.charge
-  # def amount_for(rental)
-  #   rental.charge
-  # end
 end
 
 
@@ -160,9 +158,10 @@ class RefactoredProgramV3
   private
 
   def prerequisites
-    regular_movie = Movie.new("Superman", Movie::REGULAR)
-    new_release_movie = Movie.new("Superman New Release", Movie::NEW_RELEASE)
-
+    regular_movie = Movie.new("Superman")
+    regular_movie.price = RegularPrice.new
+    new_release_movie = Movie.new("Superman New Release")
+    new_release_movie.price =  NewReleasePrice.new
     regular_rental = Rental.new(regular_movie, 5)
     new_release_rental = Rental.new(new_release_movie, 5)
 
