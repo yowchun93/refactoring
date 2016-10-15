@@ -12,6 +12,22 @@ class Movie
     @title, @price_code = title, price_code
   end
 
+  # require rental's days_rented
+  def charge(days_rented)
+    result = 0
+    case price_code
+    when Movie::REGULAR
+      result += 2
+      result += (days_rented - 2) * 1.5 if days_rented > 2
+    when Movie::NEW_RELEASE
+      result += days_rented * 3
+    when Movie::CHILDRENS
+      result += 1.5
+      result += (days_rented -3 ) * 1.5 if days_rented > 3
+    end
+    return result
+  end
+
 end
 
 class Rental
@@ -23,18 +39,8 @@ class Rental
   end
 
   def charge
-    result = 0
-    case self.movie.price_code
-    when Movie::REGULAR
-      result += 2
-      result += (self.days_rented - 2) * 1.5 if self.days_rented > 2
-    when Movie::NEW_RELEASE
-      result += self.days_rented * 3
-    when Movie::CHILDRENS
-      result += 1.5
-      result += (self.days_rented -3 ) * 1.5 if self.days_rented > 3
-    end
-    return result
+    # movie requires rental's day rented
+    @movie.charge(days_rented)
   end
 
   def frequent_renter_points
@@ -93,7 +99,7 @@ end
 
 
 
-class RefactoredProgram
+class RefactoredProgramV3
 
   attr_accessor :customer
 
