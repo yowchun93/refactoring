@@ -61,18 +61,15 @@ class Customer
   end
 
   def statement
-    frequent_renter_points = 0
     result = "Rental Records for #{name}\n"
     # for each rental that the customer has, check the rental's price code
     @rentals.each do |rental|
       ## add frequent renter points
-      frequent_renter_points = rental.frequent_renter_points
-      # frequent_renter_points = get_frequent_rental_points(rental)
       result += "\t" + rental.movie.title + "\t" + rental.charge.to_s + "\n"
     end
     # add footer
     result += "Amount owned is #{total_charge}"
-    result += "You earned #{frequent_renter_points} frequent_renter_points"
+    result += "You earned #{total_frequent_renter_points} frequent_renter_points"
     result
   end
 
@@ -87,12 +84,20 @@ class Customer
   def total_charge
     @rentals.inject(0) { |sum,rental| sum += rental.charge }
   end
+
+  def total_frequent_renter_points
+    result = 0
+    @rentals.each do |rental|
+      result += rental.frequent_renter_points
+    end
+    result
+  end
+
   ## replace this with just rental.charge
   # def amount_for(rental)
   #   rental.charge
   # end
 end
-
 
 
 
