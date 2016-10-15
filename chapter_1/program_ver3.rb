@@ -9,8 +9,17 @@ class Movie
   # attr_accessor :price_code
   attr_reader :price_code
 
+  ## create an instance of price , price code will now return an instance of price
   def price_code=(value)
     @price_code = value
+    @price = case @price_code
+      when REGULAR
+        RegularPrice.new
+      when NEW_RELEASE
+        NewReleasePrice.new
+      when CHILDRENS
+        ChildrensPrice.new
+    end
   end
 
   def initialize(title, price_code)
@@ -41,10 +50,12 @@ class Movie
     return frequent_rental_points
   end
 
+
+
 end
 
 class RegularPrice
-  
+
 end
 
 class NewReleasePrice
